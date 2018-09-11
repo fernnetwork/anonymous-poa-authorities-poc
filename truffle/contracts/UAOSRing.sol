@@ -20,7 +20,7 @@ library UAOSRing
 		));
 	}
 
-	function Verify( uint256[10] pubkeys, uint256[2] tag, uint256[4] tees, uint256 seed, uint256 message )
+	function verify( uint256[20] pubkeys, uint256[2] tag, uint256[10] tees, uint256 seed, uint256 message )
 		public constant
 		returns (bool)
 	{

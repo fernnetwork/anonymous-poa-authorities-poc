@@ -1,0 +1,52 @@
+pragma solidity ^0.4.24;
+
+import './UAOSRing.sol';
+
+contract AnonymousIdentityRegistry {
+  /// key = listId
+  mapping(bytes16 => uint256[20]) pkeys;
+  mapping(bytes16 => address[]) anonymousIds;
+  
+  address owner;
+
+  event ListCreated(bytes16 listId);
+  event ListItemAdded(bytes16 listId, address anonymousId);
+
+  constructor() public {
+    owner = msg.sender;
+  }
+
+  modifier onlyOwner() {
+    require(owner == msg.sender);
+    _;
+  }
+
+  function createList(bytes16 _listId, uint256[20] _pkeys) public onlyOwner {
+    pkeys[_listId] = _pkeys;
+    emit ListCreated(_listId);
+  }
+
+  function addToList(
+      bytes16 _listId, 
+      address _anonymousId,
+      // ring signature parameters
+      uint256[20] pubkeys,
+      uint256[2] tag,
+      uint256[10] tees,
+      uint256 seed
+    ) {
+    // verify ring signature
+    bool result = UAOSRing.verify(
+      pubkeys,
+      tag,
+      tees,
+      seed,
+      uint256(sha256(_listId))
+    );
+    require(result, 'Invalid signature');
+
+    address[] storage anonymousIdsOfList = anonymousIds[_listId];
+    anonymousIdsOfList.push(_anonymousId);
+    emit ListItemAdded(_listId, _anonymousId);
+  }
+}
