@@ -12,6 +12,7 @@ const flat = arr => arr.reduce((previous, current) => previous.concat(current), 
 contract('AnonymousIdentityRegistry', accounts => {
   const owner = accounts[0]
   const listId = '0xd3fd354067184687956bc8618a26e335'
+  const entry = '0x9b7B86FC70bA2aD53e98d5F8F852c3629F813c7a'
   let contract
 
   before(async () => {
@@ -28,7 +29,6 @@ contract('AnonymousIdentityRegistry', accounts => {
   })
 
   it('should accpet new entry to list when valid signature provided', async () => {
-    const entry = '0x9b7B86FC70bA2aD53e98d5F8F852c3629F813c7a'
     const { pubKeys, tag, tees, cees } = signature
     const { logs } = await contract.addToList(
       listId,
@@ -46,4 +46,12 @@ contract('AnonymousIdentityRegistry', accounts => {
     expect(args.anonymousId).to.equal(entry)
   })
 
+  it('should return all entries for the list', async () => {
+    const result = await contract.getList(listId)
+    expect(result).to.deep.equal([ entry ])
+  })
+
+  // TODO loop - do the same thing for all identities in the pubKeys list, fill up the list
+  // TODO add initial hash transaction
+  // TODO add more validation
 })

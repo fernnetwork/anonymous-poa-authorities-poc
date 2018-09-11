@@ -51,4 +51,8 @@ contract AnonymousIdentityRegistry {
     
     return true;
   }
+
+  function getList(string _listId) public view returns (address[]) {
+    return anonymousIds[_listId];
+  }
 }
