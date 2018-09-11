@@ -19,21 +19,31 @@ contract('AnonymousIdentityRegistry', accounts => {
   })
 
   it('should create new list', async () => {
-    const { receipt } = await contract.createList(listId, flat(signature.pubKeys))
-    expect(receipt).to.not.be.null
+    const { logs } = await contract.createList(listId, flat(signature.pubKeys))
+    
+    const { event, args } = logs[0]
+    expect(logs.length).to.equal(1)
+    expect(event).to.equal('ListCreated')
+    expect(args.listId).to.equal(listId)
   })
 
   it('should accpet new entry to list when valid signature provided', async () => {
+    const entry = '0x9b7B86FC70bA2aD53e98d5F8F852c3629F813c7a'
     const { pubKeys, tag, tees, cees } = signature
-    const { receipt } = await contract.addToList(
+    const { logs } = await contract.addToList(
       listId,
-      '0x9b7b86fc70ba2ad53e98d5f8f852c3629f813c7a',
+      entry,
       flat(pubKeys),
       tag,
       tees,
       cees
     )
-    expect(receipt).to.not.be.null
+
+    const { event, args } = logs[0]
+    expect(logs.length).to.equal(1)
+    expect(event).to.equal('ListItemAdded')
+    expect(args.listId).to.equal(listId)
+    expect(args.anonymousId).to.equal(entry)
   })
 
 })

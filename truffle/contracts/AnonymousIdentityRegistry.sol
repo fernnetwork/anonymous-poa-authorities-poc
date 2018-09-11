@@ -4,13 +4,13 @@ import './UAOSRing.sol';
 
 contract AnonymousIdentityRegistry {
   /// key = listId
-  mapping(bytes16 => uint256[20]) pkeys;
-  mapping(bytes16 => address[]) anonymousIds;
+  mapping(string => uint256[20]) pkeys;
+  mapping(string => address[]) anonymousIds;
   
   address owner;
 
-  event ListCreated(bytes16 listId);
-  event ListItemAdded(bytes16 listId, address anonymousId);
+  event ListCreated(string listId);
+  event ListItemAdded(string listId, address anonymousId);
 
   constructor() public {
     owner = msg.sender;
@@ -21,20 +21,20 @@ contract AnonymousIdentityRegistry {
     _;
   }
 
-  function createList(bytes16 _listId, uint256[20] _pkeys) public onlyOwner {
+  function createList(string _listId, uint256[20] _pkeys) public onlyOwner {
     pkeys[_listId] = _pkeys;
     emit ListCreated(_listId);
   }
 
   function addToList(
-      bytes16 _listId, 
+      string _listId, 
       address _anonymousId,
       // ring signature parameters
       uint256[20] pubkeys,
       uint256[2] tag,
       uint256[10] tees,
       uint256 seed
-    ) {
+    ) public returns (bool success) {
     // verify ring signature
     bool result = UAOSRing.verify(
       pubkeys,
@@ -48,5 +48,7 @@ contract AnonymousIdentityRegistry {
     address[] storage anonymousIdsOfList = anonymousIds[_listId];
     anonymousIdsOfList.push(_anonymousId);
     emit ListItemAdded(_listId, _anonymousId);
+    
+    return true;
   }
 }
