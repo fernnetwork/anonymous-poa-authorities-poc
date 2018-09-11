@@ -3,7 +3,7 @@ Anonymous identity registry PoC using linkable ring signatures.
 
 See the design of the PoC [here](https://github.com/appliedblockchain/fern-research/blob/master/experiments/solcrypto-python/README.md)
 
-## High level steps:
+## Steps to testing:
 1. Create 10 key pairs
 2. Deploy contract with pub keys and list id
 3. User signs a hash of listId => linkable ring sig
