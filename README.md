@@ -13,7 +13,7 @@ See the design of the PoC [here](https://github.com/appliedblockchain/fern-resea
 6. The [AnonymousIdentityRegistry](truffle/contracts/AnonymousIdentityRegistry.sol) contract verify ring signature and add entry to list
 
 ## Code 
-- Basic working version of the [anonymous list contract](truffle/contracts/AnonymousIdentityRegistry.sol)
+- Basic working version of the [AnonymousIdentityRegistry](truffle/contracts/AnonymousIdentityRegistry.sol) contract
 - All test cases for implemented features [here](truffle/test/AnonymousIdentityRegistry.js)
 
 ## Implemented features
