@@ -1,8 +1,5 @@
 'use strict'
-const chai = require('chai')
-const chaiAsPromised = require('chai-as-promised')
-const expect = chai.expect
-chai.use(chaiAsPromised)
+const { assert, expect } = require('./utils/testHelper.js')
 
 // ring signature for message '0xd3fd354067184687956bc8618a26e335'
 const signature = require('./data/signature.json')
@@ -29,6 +26,15 @@ contract('AnonymousIdentityRegistry', accounts => {
     expect(args.listId).to.equal(listId)
   })
 
+  it('should reject adding a duplicate list', async () => {
+    try {
+      await contract.createList(listId, flat(signature.pubKeys))
+    } catch (err) {
+      return expect(err.reason).to.equal('List already exists')
+    }
+    assert.fail('Expecting an error but none was caught')
+  })
+
   it('should reject new entry to list when invalid signature provided', async () => {
     const { pubKeys, tag, tees, cees } = signature
 
@@ -42,8 +48,9 @@ contract('AnonymousIdentityRegistry', accounts => {
         cees
       )
     } catch (err) {
-      expect(err.reason).to.equal('Invalid signature')
+      return expect(err.reason).to.equal('Invalid signature')
     }
+    assert.fail('Expecting an error but none was caught')
   })
 
   it('should accept new entry to list when valid signature provided', async () => {
@@ -77,8 +84,9 @@ contract('AnonymousIdentityRegistry', accounts => {
         cees
       )
     } catch (err) {
-      expect(err.reason).to.equal('Duplicate signature')
+      return expect(err.reason).to.equal('Duplicate signature')
     }
+    assert.fail('Expecting an error but none was caught')
   })
 
   it('should return all entries for the list', async () => {
@@ -86,6 +94,7 @@ contract('AnonymousIdentityRegistry', accounts => {
     expect(result).to.deep.equal([ entry ])
   })
 
+  // TODO improve python script to dump all data to JSONs
   // TODO loop - do the same thing for all identities in the pubKeys list, fill up the list
   // TODO add initial hash transaction
   // TODO add more validation
