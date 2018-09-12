@@ -1,4 +1,4 @@
-# fern anonymous identity registry poc
+# Fern Anonymous Identity Registry PoC
 Anonymous identity registry PoC using linkable ring signatures.
 
 See the design of the PoC [here](https://github.com/appliedblockchain/fern-research/blob/master/experiments/solcrypto-python/README.md)
