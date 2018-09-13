@@ -5,4 +5,13 @@ const chaiAsPromised = require('chai-as-promised')
 const expect = chai.expect
 chai.use(chaiAsPromised)
 
-module.exports = { assert, expect }
+const expectErrorReason = async (fn, errorReason) => {
+  try {
+    await fn()
+  } catch (err) {
+    return expect(err.reason).to.equal(errorReason)
+  }
+  assert.fail('Expecting an error but none was caught')
+}
+
+module.exports = { assert, expect, expectErrorReason }

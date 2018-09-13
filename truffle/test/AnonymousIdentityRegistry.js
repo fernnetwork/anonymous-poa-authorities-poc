@@ -1,6 +1,6 @@
 'use strict'
 
-const { assert, expect } = require('./utils/testHelper.js')
+const { assert, expect, expectErrorReason } = require('./utils/testHelper.js')
 const AnonymousIdentityRegistry = artifacts.require('./AnonymousIdentityRegistry.sol')
 
 const listId = '0xd3fd354067184687956bc8618a26e335' // message being signed
@@ -8,15 +8,6 @@ const signature = require('./data/signature_0.json') // valid signature for the 
 const signatureDiffMsg = require('./data/signature_0_hello.json') // valid signature for string 'hello'
 
 const flat = arr => arr.reduce((previous, current) => previous.concat(current), [])
-
-const expectErrorReason = async (fn, errorReason) => {
-  try {
-    await fn()
-  } catch (err) {
-    return expect(err.reason).to.equal(errorReason)
-  }
-  assert.fail('Expecting an error but none was caught')
-}
 
 contract('AnonymousIdentityRegistry', accounts => {
   const owner = accounts[0]
