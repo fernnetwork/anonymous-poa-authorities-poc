@@ -17,12 +17,13 @@ See the design of the PoC [here](https://github.com/appliedblockchain/fern-resea
 - All test cases for implemented features [here](truffle/test/AnonymousIdentityRegistry.js)
 
 ## Implemented features
+- Generate keypairs and output to a JSON file
+- Generate linkable ring signatures and output to a JSON file
 - Registry Contract owner can create a list, providing a listId and authorised list of pubkeys
 - Authorised pubkey owners can add entry to a list, providing a valid and unique linkable ring signature
 - Ability to retrieve all entries from the list
 
 ## Next steps
-- Python/docker script to simplify key and ring signature generation and convert to more understandable format e.g. JSON (currently writing tuples and lists of numbers to console and need to do some manual manipulation before using them in JS/solidity)
 - Add test cases to simulate adding entries for all authorised users
 - Add initial hash commit transaction and hash verification to prevent transaction sniping
 - Ring sig algorithm validation / audit by crypto expert
