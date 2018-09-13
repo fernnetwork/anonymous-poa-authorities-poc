@@ -18,7 +18,7 @@ contract('AnonymousIdentityRegistry', accounts => {
   })
 
   it('should create new list', async () => {
-    const { logs } = await contract.createList(listId, flat(signature.pubKeys))
+    const { logs } = await contract.createList(listId, flat(signature.pkeys))
     
     const { event, args } = logs[0]
     expect(logs.length).to.equal(1)
@@ -28,7 +28,7 @@ contract('AnonymousIdentityRegistry', accounts => {
 
   it('should reject adding a duplicate list', async () => {
     try {
-      await contract.createList(listId, flat(signature.pubKeys))
+      await contract.createList(listId, flat(signature.pkeys))
     } catch (err) {
       return expect(err.reason).to.equal('List already exists')
     }
@@ -36,16 +36,16 @@ contract('AnonymousIdentityRegistry', accounts => {
   })
 
   it('should reject new entry to list when invalid signature provided', async () => {
-    const { pubKeys, tag, tees, cees } = signature
+    const { pkeys, tag, tees, seed } = signature
 
     try {
       await contract.addToList(
         'unsigned message',
         entry,
-        flat(pubKeys),
+        flat(pkeys),
         tag,
         tees,
-        cees
+        seed
       )
     } catch (err) {
       return expect(err.reason).to.equal('Invalid signature')
@@ -54,14 +54,14 @@ contract('AnonymousIdentityRegistry', accounts => {
   })
 
   it('should accept new entry to list when valid signature provided', async () => {
-    const { pubKeys, tag, tees, cees } = signature
+    const { pkeys, tag, tees, seed } = signature
     const { logs } = await contract.addToList(
       listId,
       entry,
-      flat(pubKeys),
+      flat(pkeys),
       tag,
       tees,
-      cees
+      seed
     )
 
     const { event, args } = logs[0]
@@ -72,16 +72,16 @@ contract('AnonymousIdentityRegistry', accounts => {
   })
 
   it('should reject new entry to list when a duplicate signature is provided', async () => {
-    const { pubKeys, tag, tees, cees } = signature
+    const { pkeys, tag, tees, seed } = signature
 
     try {
       await contract.addToList(
         listId,
         '0x6d480772b57e91f1c4e1cc196df88896d27ed327',
-        flat(pubKeys),
+        flat(pkeys),
         tag,
         tees,
-        cees
+        seed
       )
     } catch (err) {
       return expect(err.reason).to.equal('Duplicate signature')
@@ -94,8 +94,13 @@ contract('AnonymousIdentityRegistry', accounts => {
     expect(result).to.deep.equal([ entry ])
   })
 
-  // TODO improve python script to dump all data to JSONs
-  // TODO loop - do the same thing for all identities in the pubKeys list, fill up the list
+  // TODO loop - do the same thing for all identities in the pkeys list, fill up the list
   // TODO add initial hash transaction
-  // TODO add more validation
+  it.skip('should reject a hash when an invalid non-linkable ring signature is provided', () => {
+    
+  })
+
+  it.skip('should accept a hash when a valid non-linkable ring signature is provided', () => {
+
+  })
 })
