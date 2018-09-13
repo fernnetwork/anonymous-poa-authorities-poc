@@ -27,7 +27,7 @@ docker run -it --rm -v "$PWD"/temp:/usr/src/app/temp linkable-ring-sig python 2_
 Output can be found at `temp/signature.json`. 
 
 ## TODO
-- Make hard coded values such as `num_of_keys`, `message`, `pkeys_path` and `keypair_path` configurable, i.e:
+- Make hard coded values such as `num_of_keys`, `message`, `pkeys_path` and `keypair_path` configurable and to make it possible to pass these options as arguments like belong:
 ```
 alias cmd="docker run -it --rm -v $(PWD)/temp:/usr/src/app/temp linkable-ring-sig python"
 cmd 1_generate_key_pairs.py 10
