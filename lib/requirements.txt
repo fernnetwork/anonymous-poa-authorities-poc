@@ -1,1 +1,1 @@
--e git+git@github.com:jchen86/solcrypto.git#egg=solcrypto
+-e git+https://github.com/jchen86/solcrypto.git#egg=solcrypto

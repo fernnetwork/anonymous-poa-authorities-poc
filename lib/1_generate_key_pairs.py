@@ -4,14 +4,7 @@ import json
 from pysolcrypto.uaosring import uaosring_randkeys
 from utils import point_tuple_to_str_array
 
-def create_dir(path):
-  if os.path.exists(path):
-    shutil.rmtree(path)
-  os.mkdir(path)
-
 temp_dir = 'temp'
-
-create_dir(temp_dir)
 
 pkeys = []
 num_of_keys = 10
