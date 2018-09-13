@@ -1,4 +1,4 @@
-# fern anonymous identity registry poc
+# Fern Anonymous Identity Registry PoC
 Anonymous identity registry PoC using linkable ring signatures.
 
 See the design of the PoC [here](https://github.com/appliedblockchain/fern-research/blob/master/experiments/solcrypto-python/README.md)
@@ -7,13 +7,13 @@ See the design of the PoC [here](https://github.com/appliedblockchain/fern-resea
 1. Create key pairs using [solcrypto](https://github.com/HarryR/solcrypto)
 2. Registry owner deploy [AnonymousIdentityRegistry](truffle/contracts/AnonymousIdentityRegistry.sol) contract
 3. Registry owner create a list with  list id and authorised pub keys
-3. User create linkable ring signature of a hash of listId, using the [solcrypto](https://github.com/HarryR/solcrypto/blob/master/pysolcrypto/uaosring.py) library.
+3. User create linkable ring signature of a hash of `listId`, using the [solcrypto](https://github.com/HarryR/solcrypto/blob/master/pysolcrypto/uaosring.py) library.
 4. User sends a hash of the generated ring sig and hash of the entry value to the [AnonymousIdentityRegistry](truffle/contracts/AnonymousIdentityRegistry.sol) contract
 5. User sends the original ring sig and entry value to the [AnonymousIdentityRegistry](truffle/contracts/AnonymousIdentityRegistry.sol) contract
-6. Contract verify inputs and add entry to list
+6. The [AnonymousIdentityRegistry](truffle/contracts/AnonymousIdentityRegistry.sol) contract verify ring signature and add entry to list
 
 ## Code 
-- Basic working version of the [anonymous list contract](truffle/contracts/AnonymousIdentityRegistry.sol)
+- Basic working version of the [AnonymousIdentityRegistry](truffle/contracts/AnonymousIdentityRegistry.sol) contract
 - All test cases for implemented features [here](truffle/test/AnonymousIdentityRegistry.js)
 
 ## Implemented features
@@ -28,4 +28,4 @@ See the design of the PoC [here](https://github.com/appliedblockchain/fern-resea
 - Ring sig algorithm validation / audit by crypto expert
 
 ## Out of scope for PoC
-- Efficiency & gas usage optimization (edited)
+- Efficiency & gas usage optimization
