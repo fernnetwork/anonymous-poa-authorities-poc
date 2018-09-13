@@ -4,10 +4,10 @@ Anonymous identity registry PoC using linkable ring signatures.
 See the design of the PoC [here](https://github.com/appliedblockchain/fern-research/blob/master/experiments/solcrypto-python/README.md)
 
 ## How does it work?
-1. Create key pairs using [solcrypto](https://github.com/HarryR/solcrypto)
+1. Generate key pairs using script [1_generate_key_pairs.py](lib/1_generate_key_pairs.py)
 2. Registry owner deploy [AnonymousIdentityRegistry](truffle/contracts/AnonymousIdentityRegistry.sol) contract
-3. Registry owner create a list with  list id and authorised pub keys
-3. User create linkable ring signature of a hash of `listId`, using the [solcrypto](https://github.com/HarryR/solcrypto/blob/master/pysolcrypto/uaosring.py) library.
+3. Registry owner create a list with list id and a set of authorised pub keys
+3. User create linkable ring signature of a hash of `listId`, using script [2_sign_message.py](lib/2_sign_message.py)
 4. User sends a hash of the generated ring sig and hash of the entry value to the [AnonymousIdentityRegistry](truffle/contracts/AnonymousIdentityRegistry.sol) contract
 5. User sends the original ring sig and entry value to the [AnonymousIdentityRegistry](truffle/contracts/AnonymousIdentityRegistry.sol) contract
 6. The [AnonymousIdentityRegistry](truffle/contracts/AnonymousIdentityRegistry.sol) contract verify ring signature and add entry to list
