@@ -12,7 +12,7 @@ See the design of the PoC [here](https://github.com/appliedblockchain/fern-resea
 ```
 const { tag, tees, seed } = require('./signature.json')
 const myAnonymousId = '0x0f4f2ac550a1b4e2280d04c21cea7ebd822934b5'
-const createEntryHash = (tag, entry) => web3.utils.soliditySha3({ t: 'uint256[10]', v: tag }, { t: 'address', v: entry })
+const createEntryHash = (tag, entry) => web3.utils.soliditySha3({ t: 'uint256[2]', v: tag }, { t: 'address', v: entry })
 
 await contract.methods.commitToList(listId, createEntryHash(tag, myAnonymousId))
   .send({ from: myAnonymousId })
