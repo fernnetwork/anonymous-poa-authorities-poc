@@ -8,18 +8,20 @@ See the design of the PoC [here](https://github.com/appliedblockchain/fern-resea
 2. Registry owner deploy [AnonymousIdentityRegistry](truffle/contracts/AnonymousIdentityRegistry.sol) contract.
 3. Registry owner create a list with list id and a set of authorised pub keys.
 3. User create linkable ring signature of a `listId` hash, using script [2_sign_message.py](lib/2_sign_message.py). See instructions [here](lib/README.md)
-4. User sends a hash of the generated ring sig and hash of the entry value to the [AnonymousIdentityRegistry](truffle/contracts/AnonymousIdentityRegistry.sol) contract (could potentially authenticate this using a non linkable ring signature)
+4. User sends a hash of the generated ring sig tag and the entry value to the [AnonymousIdentityRegistry](truffle/contracts/AnonymousIdentityRegistry.sol) contract (could potentially authenticate this using a non linkable ring signature)
 ```
 const { tag, tees, seed } = require('./signature.json')
 const myAnonymousId = '0x0f4f2ac550a1b4e2280d04c21cea7ebd822934b5'
-const createEntryHash = (tees, entry) => web3.utils.soliditySha3({ t: 'uint256[10]', v: tees }, { t: 'address', v: entry })
+const createEntryHash = (tag, entry) => web3.utils.soliditySha3({ t: 'uint256[10]', v: tag }, { t: 'address', v: entry })
 
-await contract.methods.commitToList(listId, createEntryHash(tees, myAnonymousId)).send({ from: myAnonymousId })
+await contract.methods.commitToList(listId, createEntryHash(tag, myAnonymousId))
+  .send({ from: myAnonymousId })
 ```
-5. User sends the ring sig and entry value to the [AnonymousIdentityRegistry](truffle/contracts/AnonymousIdentityRegistry.sol#) contract
+5. User sends the raw ring sig and entry value to the [AnonymousIdentityRegistry](truffle/contracts/AnonymousIdentityRegistry.sol#) contract
 ```
 const { tag, tees, seed } = require('./signature.json')
-const receipt = await contract.methods.addToList(listId, myAnonymousId, tag, tees, seed).send({ from: myAnonymousId })
+await contract.methods.addToList(listId, myAnonymousId, tag, tees, seed)
+  .send({ from: myAnonymousId })
 ```
 6. The [AnonymousIdentityRegistry](truffle/contracts/AnonymousIdentityRegistry.sol) contract verifies the ring signature and adds the entry to list
 
