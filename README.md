@@ -9,8 +9,19 @@ See the design of the PoC [here](https://github.com/appliedblockchain/fern-resea
 3. Registry owner create a list with list id and a set of authorised pub keys.
 3. User create linkable ring signature of a `listId` hash, using script [2_sign_message.py](lib/2_sign_message.py). See instructions [here](lib/README.md)
 4. User sends a hash of the generated ring sig and hash of the entry value to the [AnonymousIdentityRegistry](truffle/contracts/AnonymousIdentityRegistry.sol) contract (could potentially authenticate this using a non linkable ring signature)
-5. User sends the original ring sig and entry value to the [AnonymousIdentityRegistry](truffle/contracts/AnonymousIdentityRegistry.sol) contract
-6. The [AnonymousIdentityRegistry](truffle/contracts/AnonymousIdentityRegistry.sol) contract verify ring signature and add entry to list
+```
+const { tag, tees, seed } = require('./signature.json')
+const myAnonymousId = '0x0f4f2ac550a1b4e2280d04c21cea7ebd822934b5'
+const createEntryHash = (tees, entry) => web3.utils.soliditySha3({ t: 'uint256[10]', v: tees }, { t: 'address', v: entry })
+
+await contract.methods.commitToList(listId, createEntryHash(tees, myAnonymousId)).send({ from: myAnonymousId })
+```
+5. User sends the ring sig and entry value to the [AnonymousIdentityRegistry](truffle/contracts/AnonymousIdentityRegistry.sol#) contract
+```
+const { tag, tees, seed } = require('./signature.json')
+const receipt = await contract.methods.addToList(listId, myAnonymousId, tag, tees, seed).send({ from: myAnonymousId })
+```
+6. The [AnonymousIdentityRegistry](truffle/contracts/AnonymousIdentityRegistry.sol) contract verifies the ring signature and adds the entry to list
 
 ## Implemented features
 - Generate keypairs and output to a JSON file
@@ -20,7 +31,6 @@ See the design of the PoC [here](https://github.com/appliedblockchain/fern-resea
 - Ability to retrieve all entries from the list
 
 ## Next steps
-- Add initial hash commit transaction and hash verification to prevent transaction sniping
 - Ring sig algorithm validation / audit by crypto expert
 
 ## Out of scope for PoC
