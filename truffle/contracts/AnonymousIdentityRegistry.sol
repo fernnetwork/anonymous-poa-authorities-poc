@@ -12,6 +12,9 @@ contract AnonymousIdentityRegistry {
   /// mapping of list ids to ring signature tags
   mapping(string => mapping(bytes => bool)) listIdToTags;
 
+  /// mapping of list ids to commit hashes
+  mapping(string => mapping(bytes32 => bool)) listIdToCommitHashes;
+
   /// mapping of list ids to anonymous identities
   mapping(string => address[]) listIdToAnonymousIds;
 
@@ -48,6 +51,18 @@ contract AnonymousIdentityRegistry {
   }
 
   /**
+   * @dev commits a future entry using a hash. Required before an user can add their anonymous address to a list.
+   * This is to prevent others from taking others signatures from the transaction pool and use it to submit an entry.
+   * @param _listId list id to add to.
+   * @param _commitHash solidty sha3 hash of the linkable ring signature tag and anonymousId being added.
+   */
+  function commitToList(string _listId, bytes32 _commitHash) public {
+    // TODO authenticate with regular ring signatures?
+    require(listIds[_listId] == true, 'List does not exist');
+    listIdToCommitHashes[_listId][_commitHash] = true;
+  }
+
+  /**
    * @dev adds a new anonymous identity to a list. 
    *  An unique and valid linkable ring signature must be provided.
    * @param _listId list id to add to.
@@ -74,10 +89,14 @@ contract AnonymousIdentityRegistry {
       uint256(sha256(_listId))
     ), 'Invalid signature');
 
-    // check for duplicate identities
+    // check for duplicate identities across all lists
     require(anonmyousIdentitiesMap[_anonymousId] == false, 'Identity has already been added');
 
-    // verify tag uniqueness
+    // verify commit hash, to prevent signature being used by others
+    bytes32 commitHash = keccak256(abi.encodePacked(_tees, _anonymousId));
+    require(listIdToCommitHashes[_listId][commitHash] == true, "No matching commit hash");
+
+    // verify tag uniqueness, to prevent an user from adding items more than once
     bytes memory tagBytes = abi.encodePacked(_tag);
     require(listIdToTags[_listId][tagBytes] == false, "Duplicate signature");
     listIdToTags[_listId][tagBytes] = true;
