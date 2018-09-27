@@ -8,7 +8,7 @@ const signature = require('./data/signature_0.json') // valid signature for the 
 const signatureDiffMsg = require('./data/signature_0_hello.json') // valid signature for string 'hello'
 
 const flat = arr => arr.reduce((previous, current) => previous.concat(current), [])
-const createEntryHash = (tees, entry) => web3.utils.soliditySha3({ t: 'uint256[10]', v: tees }, { t: 'address', v: entry })
+const createEntryHash = (tag, entry) => web3.utils.soliditySha3({ t: 'uint256[2]', v: tag }, { t: 'address', v: entry })
 
 contract('AnonymousIdentityRegistry', accounts => {
   const owner = accounts[0]
@@ -94,7 +94,7 @@ contract('AnonymousIdentityRegistry', accounts => {
       const { tag, tees, seed } = signature
       const entry = accounts[0]
 
-      await contract.commitToList(listId, createEntryHash(tees, entry))
+      await contract.commitToList(listId, createEntryHash(tag, entry))
 
       const { logs } = await contract.addToList(
         listId,
@@ -115,7 +115,7 @@ contract('AnonymousIdentityRegistry', accounts => {
       // different signature, duplicate entry
       const { tag, tees, seed } = require('./data/signature_1.json')
       const entry = accounts[0]
-      await contract.commitToList(listId, createEntryHash(tees, entry))
+      await contract.commitToList(listId, createEntryHash(tag, entry))
 
       expectErrorReason(
         () => contract.addToList(
@@ -132,7 +132,7 @@ contract('AnonymousIdentityRegistry', accounts => {
     it('should reject new entry to list when a duplicate signature is provided', async () => {
       // duplicate signature, different entry
       const { tag, tees, seed } = signature
-      await contract.commitToList(listId, createEntryHash(tees, accounts[1]))
+      await contract.commitToList(listId, createEntryHash(tag, accounts[1]))
 
       expectErrorReason(
         () => contract.addToList(
@@ -154,7 +154,7 @@ contract('AnonymousIdentityRegistry', accounts => {
 
         const { tag, tees, seed } = sig
 
-        await contract.commitToList(listId, createEntryHash(tees, accounts[i]))
+        await contract.commitToList(listId, createEntryHash(tag, accounts[i]))
 
         lastResponse = contract.addToList(
           listId,

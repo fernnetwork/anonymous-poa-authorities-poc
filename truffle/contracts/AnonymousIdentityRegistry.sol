@@ -93,7 +93,7 @@ contract AnonymousIdentityRegistry {
     require(anonmyousIdentitiesMap[_anonymousId] == false, 'Identity has already been added');
 
     // verify commit hash, to prevent signature being used by others
-    bytes32 commitHash = keccak256(abi.encodePacked(_tees, _anonymousId));
+    bytes32 commitHash = keccak256(abi.encodePacked(_tag, _anonymousId));
     require(listIdToCommitHashes[_listId][commitHash] == true, "No matching commit hash");
 
     // verify tag uniqueness, to prevent an user from adding items more than once
