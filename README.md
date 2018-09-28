@@ -3,6 +3,13 @@ Anonymous identity registry PoC using linkable ring signatures.
 
 See the design of the PoC [here](https://github.com/appliedblockchain/fern-research/blob/master/experiments/solcrypto-python/README.md)
 
+# Quick Start
+```
+cd cli
+npm i
+npm start
+```
+
 ## How does it work?
 1. Generate key pairs using script [1_generate_key_pairs.py](lib/1_generate_key_pairs.py). See instructions [here](lib/README.md).
 2. Registry owner deploy [AnonymousIdentityRegistry](truffle/contracts/AnonymousIdentityRegistry.sol) contract.
