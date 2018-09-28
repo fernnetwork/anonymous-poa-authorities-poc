@@ -9,27 +9,30 @@ docker build -t linkable-ring-sig .
 ```
 
 ## Generate key pairs
-Run the following command, this will generate 10 key pairs:
+Run the following commands, this will generate 10 key pairs:
 ```
-docker run -it --rm -v "$PWD"/temp:/usr/src/app/temp linkable-ring-sig python 1_generate_key_pairs.py
+# add an alias to docker run
+alias lrs="docker run -it --rm -v $(PWD)/out:/usr/src/app/out linkable-ring-sig python"
+
+# show help
+lrs 1_generate_key_pairs.py -h 
+
+# generate 10 key pairs
+lrs 1_generate_key_pairs.py 10
 ```
 
-Outputs can be found under the `temp` directory:
+Outputs can be found under the `out` directory:
 - `all_pkeys.json`: list of generated public keys
 - `keypair_{index}.json`: generate public and private key pair
 
 ## Generate linkable ring signature for a message
-Run the following command, this will generate a linkable ring signature for a message `0xd3fd354067184687956bc8618a26e335` using keypair `keypair_0.json`, and all public keys generated from the earlier step:
+Run the following command, this will generate a linkable ring signature for a message `hello` using keypair `keypair_0.json`, and all public keys generated from the earlier step:
 ```
-docker run -it --rm -v "$PWD"/temp:/usr/src/app/temp linkable-ring-sig python 2_sign_message.py
+# show help
+lrs 2_sign_message.py -h
+
+# sign message "hello" using keypair_0.json
+lrs 2_sign_message.py 'hello' out/all_pkeys.json out/keypair_0.json
 ```
 
-Output can be found at `temp/signature.json`. 
-
-## TODO
-- Make hard coded values such as `num_of_keys`, `message`, `pkeys_path` and `keypair_path` configurable and to make it possible to pass these options as arguments like belong:
-```
-alias cmd="docker run -it --rm -v $(PWD)/temp:/usr/src/app/temp linkable-ring-sig python"
-cmd 1_generate_key_pairs.py 10
-cmd 2_sign_message.py "my_message" temp/all_pkeys.json temp/keypair_0.json
-```
+Output can be found at `out/signature.json`. 
