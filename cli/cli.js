@@ -29,7 +29,7 @@ async function execute () {
   } catch (e) {
     console.log('Error:', e.message)
   }
-  process.exit(0)
+  execute()
 }
 
 execute()
