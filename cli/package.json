@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "description": "cli for interacting with the AnonymousIdentityRegistry contract",
   "scripts": {
-    "start": "node cli.js"
+    "start": "node cli.js",
+    "debug": "node --nolazy --inspect-brk=9229 cli.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "inquirer": "^6.2.0",
+    "truffle-contract": "^4.0.0-beta.1",
     "uuid": "^3.3.2",
     "web3": "^1.0.0-beta.36"
   }
