@@ -1,5 +1,5 @@
 # Fern Anonymous Identity Registry PoC
-Anonymous identity registry PoC using [linkable ring signatures](https://github.com/HarryR/solcrypto).
+Anonymous identity registry PoC using [linkable ring signatures](https://eprint.iacr.org/2004/027.pdf).
 
 ## Overview
 The Anonymous Identity Registry stores a list of anonymous accounts owned by an authorised group of users, without revealing who the accounts belongs to. The original purpose of this work was to ensure anonymity of blockchain service providers, in order to create a more secure, and collusion-free network. See [Fern Network](https://www.fern.network/) for more details about the protocol and how this will be used in practice. However, this smart contract is quite generic and could be used to maintain lists of anonymous entries for other purposes.
@@ -11,8 +11,8 @@ This repository contains:
 See the design of the PoC [here](https://github.com/appliedblockchain/fern-research/blob/master/experiments/solcrypto-python/README.md)
 
 ## Features
-- Generate keypairs and output to a JSON file
-- Generate linkable ring signatures and output to a JSON file
+- Generate keypairs using the [SolCrypto](https://github.com/HarryR/solcrypto) library and output to a JSON file
+- Generate linkable ring signatures using the [SolCrypto](https://github.com/HarryR/solcrypto) and output to a JSON file
 - Registry Contract owner can create a list, providing a listId and list of authorised public keys
 - Authorised pubkey owners can add entry to a list, providing a valid and unique linkable ring signature
 - Ability to retrieve all entries from the list
