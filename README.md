@@ -47,8 +47,8 @@ npm start
 3. Network owner executes the `create list` task to create a new list and submit the list of authorised public keys to the `AnonymousIdentityRegistry`. This step creates a `listId` for the new list.
 4. Service Provider executes the `ring sign message` task to sign the `listId`, using their key pair and all authroised public keys. This creates a `signature.json` signature file.
 5. Service Provider executes the `add item` task and provides their signature to add their anonymous account to the list. This task creates two transactions:
-  * one that commits a hash of the linkable ring signature tag and entry, to authenticate the entry and prevent others from using the same linkable ring signature. ([Commit-Reveal pattern](https://karl.tech/learning-solidity-part-2-voting/))
-  * a second transaction that submits the raw entry and signature to the contract
+ * one that commits a hash of the linkable ring signature tag and entry, to authenticate the entry and prevent others from using the same linkable ring signature. ([Commit-Reveal pattern](https://karl.tech/learning-solidity-part-2-voting/))
+ * a second transaction that submits the raw entry and signature to the contract
 6. Network owner can then query the list using the `get list items` task.
 
 ## Next steps
