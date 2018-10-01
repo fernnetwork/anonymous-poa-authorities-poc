@@ -26,7 +26,7 @@ To create the validator set, the owner deploys the `AnonymousIdentityRegistry` s
 
 Each authorised service providers can then to submit their anonymous account to the `AnonymousIdentityRegistry` contract, using a `linkable ring signature` to prove that they are a member in the group of authorised service providers without revealing their identity. The `AnonymousIdentityRegistry` also verify the linkable ring signature to ensure that each provider can only add ONE entry to the list.
 
-## Example Using the CLI Tool
+## Using the CLI Tool
 ### Prerequisites
 - Docker
 - Node.js >= 8.11.3
