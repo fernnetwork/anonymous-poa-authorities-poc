@@ -5,14 +5,14 @@
 
 ## Build docker image
 ```
-docker build -t linkable-ring-sig .
+docker build -t fernnetwork/linkable-ring-sig .
 ```
 
 ## Generate key pairs
 Run the following commands, this will generate 10 key pairs:
 ```
 # add an alias to docker run
-alias lrs="docker run -it --rm -v $(PWD)/out:/usr/src/app/out linkable-ring-sig python"
+alias lrs="docker run -it --rm -v $(PWD)/out:/usr/src/app/out fernnetwork/linkable-ring-sig python"
 
 # show help
 lrs 1_generate_key_pairs.py -h 

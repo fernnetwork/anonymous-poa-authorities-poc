@@ -4,7 +4,7 @@
 const { execSync } = require('child_process')
 const inquirer = require('inquirer')
 
-const dockerCmd = 'docker run --rm -v $(PWD)/out:/usr/src/app/out linkable-ring-sig python 2_sign_message.py'
+const dockerCmd = 'docker run --rm -v $(PWD)/out:/usr/src/app/out fernnetwork/linkable-ring-sig python 2_sign_message.py'
 
 const messagePrompt = {
   message: 'What is the message',
