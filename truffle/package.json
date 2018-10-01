@@ -2,15 +2,14 @@
   "name": "anonymous-identity-registry-contracts",
   "version": "1.0.0",
   "description": "",
-  "main": "truffle-config.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
     "test": "npx truffle test --network test"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Fern Network <info@fern.network>",
+  "license": "GPL-3.0",
   "devDependencies": {
     "@appliedblockchain/eslint-config": "^2.3.0",
     "bn.js": "^4.11.8",
