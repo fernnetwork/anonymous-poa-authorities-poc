@@ -27,7 +27,7 @@ async function execute () {
     const response = await cli.execute()
     console.log(response)
   } catch (e) {
-    console.log('Error:', e.message)
+    console.log('Error:', e.message, e.stack)
   }
   execute()
 }

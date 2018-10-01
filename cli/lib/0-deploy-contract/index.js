@@ -53,6 +53,8 @@ exports.execute = async function () {
     new Web3.providers.HttpProvider(providerUrl)
   const txParams = { from: fromAddress }
 
+  console.log(`Deploying AnonymousIdentityRegistry contract to ${providerUrl}...`)
+
   const uaosRing = await deployContract(
     UAOSRingArtifact,
     web3Provider,

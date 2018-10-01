@@ -66,7 +66,8 @@ exports.execute = async function () {
   const pkeys = readJSONFromFile(pkeysJSONPath)
   const listId = uuidv4()
 
-  await anonymousIdentityRegistry.methods.createList(listId, flat(pkeys)).send({ from: fromAddress })
+  await anonymousIdentityRegistry.methods.createList(listId, flat(pkeys))
+    .send({ from: fromAddress, gas: 500000 })
   return `List ${listId} created by ${fromAddress}.`
 }
 

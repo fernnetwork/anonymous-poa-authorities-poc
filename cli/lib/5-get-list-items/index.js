@@ -1,7 +1,6 @@
 
 'use strict'
 
-const fs = require('fs')
 const inquirer = require('inquirer')
 const Web3 = require('web3')
 const { abi: contractAbi } = require('../../../truffle/build/contracts/AnonymousIdentityRegistry.json')
@@ -59,6 +58,8 @@ exports.execute = async function () {
   const web3 = new Web3(web3Provider)
   const anonymousIdentityRegistry = new web3.eth.Contract(contractAbi, contractAddress)
 
-  const result = await anonymousIdentityRegistry.methods.getList(listId).call({ from: fromAddress, gas: 500000 })
+  const result = await anonymousIdentityRegistry.methods.getList(listId)
+    .call({ from: fromAddress, gas: 5000000 })
+
   return `List ${listId}: ${JSON.stringify(result)}`
 }

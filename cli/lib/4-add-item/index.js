@@ -92,8 +92,8 @@ exports.execute = async function () {
     .send({ from: fromAddress })
   console.log(`Successfully committed hash "${commitHash}" to list ${listId}`)
 
-  const result = await anonymousIdentityRegistry.methods.addToList(listId, anonymousIdAddress, tag, tees, seed)
-    .send({ from: fromAddress })
+  await anonymousIdentityRegistry.methods.addToList(listId, anonymousIdAddress, tag, tees, seed)
+    .send({ from: fromAddress, gas: 2000000 })
 
   return `Successfully added anonymous ID "${anonymousIdAddress}" to list ${listId}`
 }
