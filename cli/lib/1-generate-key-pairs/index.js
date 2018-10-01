@@ -9,7 +9,7 @@ const numOfKeysPrompt = {
   message: 'How many key pairs would you like to generate',
   name: 'numOfKeys',
   type: 'input',
-  default: '1'
+  default: '10'
 }
 
 exports.execute = async function () {
