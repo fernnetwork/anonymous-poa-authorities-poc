@@ -40,7 +40,8 @@ cd cli
 npm i
 npm start
 ```
-![CLI screenshot](cli.png)
+
+![CLI screenshot](cli-screenshot.png)
 
 ### Steps
 1. Service Provider executes the `generate key pairs` task to create their "public" account. This step creates a pair of public and private keys.
