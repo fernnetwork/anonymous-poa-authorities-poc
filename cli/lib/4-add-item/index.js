@@ -54,7 +54,7 @@ const signaturePrompt = {
   message: 'What is location of the signature.json file',
   name: 'signatureJSONPath',
   type: 'input',
-  default: '../lib/out/signature.json',
+  default: 'out/signature.json',
   validate: (signatureJSONPath) => {
     const signature = readJSONFromFile(signatureJSONPath)
     return (signature && !!signature.pkeys && !!signature.tag && !!signature.tees && !!signature.seed) ||

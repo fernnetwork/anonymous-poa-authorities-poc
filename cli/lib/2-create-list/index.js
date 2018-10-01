@@ -24,7 +24,7 @@ const pkeysPrompt = {
   message: 'What is location of the pkeys.json file',
   name: 'pkeysJSONPath',
   type: 'input',
-  default: '../lib/out/all_pkeys.json',
+  default: 'out/all_pkeys.json',
   validate: (pkeysJSONPath) => {
     const pkeys = readJSONFromFile(pkeysJSONPath)
     return (pkeys && pkeys.length > 0) || 'Invalid pkeys.json file'
