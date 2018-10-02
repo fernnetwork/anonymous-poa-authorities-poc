@@ -1,4 +1,4 @@
-# Fern Anonymous Identity Registry PoC
+# Anonymous Identity Registry PoC
 Anonymous identity registry PoC using [linkable ring signatures](https://eprint.iacr.org/2004/027.pdf).
 
 ## Overview
@@ -30,7 +30,7 @@ Each authorised service providers can then to submit their anonymous account to 
 ### Prerequisites
 - Docker
 - Node.js >= 8.11.3
-- A running Parity instance
+- A running Parity / Ganache instance
 
 ### Running the CLI
 ```
