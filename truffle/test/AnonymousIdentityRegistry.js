@@ -180,5 +180,4 @@ contract('AnonymousIdentityRegistry', accounts => {
     })
   })
 
-  // TODO remove hard coded array size
 })
