@@ -3,13 +3,15 @@
 
 const { execSync } = require('child_process')
 const inquirer = require('inquirer')
+const tempStorage = require('../temp-storage')
 
 const dockerCmd = 'docker run --rm -v $(PWD)/out:/usr/src/app/out fernnetwork/linkable-ring-sig python 2_sign_message.py'
 
 const messagePrompt = {
   message: 'What is the message',
   name: 'message',
-  type: 'input'
+  type: 'input',
+  default: tempStorage.get('listId') || '3087b74c-5235-49b8-a8c2-e00b89fa133a'
 }
 
 const pkeysPrompt = {

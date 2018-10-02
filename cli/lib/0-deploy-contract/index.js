@@ -4,6 +4,7 @@
 const inquirer = require('inquirer')
 const contract = require("truffle-contract")
 const Web3 = require('web3')
+const tempStorage = require('../temp-storage')
 
 const UAOSRingArtifact = require('../../../truffle/build/contracts/UAOSRing.json')
 const AnonymousIdentityRegistryArtifact = require('../../../truffle/build/contracts/AnonymousIdentityRegistry.json')
@@ -13,7 +14,7 @@ const providerPrompt = {
   message: 'What is web3 provider endpoint',
   name: 'providerUrl',
   type: 'input',
-  default: 'ws://localhost:8546',
+  default: tempStorage.get('providerUrl') || 'ws://localhost:8546',
   validate: (providerUrl) => {
     return providerRegex.test(providerUrl) || 'Invalid provider address'
   }
@@ -24,7 +25,7 @@ const fromAddressPrompt = {
   message: 'What is the sender address',
   name: 'fromAddress',
   type: 'input',
-  default: '0x00Ea169ce7e0992960D3BdE6F5D539C955316432',
+  default: tempStorage.get('fromAddress') || '0x00Ea169ce7e0992960D3BdE6F5D539C955316432',
   validate: (fromAddress) => {
     return ethRegex.test(fromAddress) || 'Invalid sender address'
   }
@@ -34,7 +35,7 @@ const deployContract = async (artifact, provider, links, txParams) => {
   const Contract = contract(artifact)
   Contract.setProvider(provider)
   await Contract.detectNetwork()
-  
+
   for (const [name, link] of Object.entries(links)) {
     Contract.link(name, link.address)
   }
@@ -59,13 +60,18 @@ exports.execute = async function () {
     UAOSRingArtifact,
     web3Provider,
     {},
-    txParams)
-  
+    txParams
+  )
+
   const anonymousIdentityRegistry = await deployContract(
     AnonymousIdentityRegistryArtifact,
     web3Provider,
     { UAOSRing: uaosRing },
-    txParams)
+    txParams
+  )
 
-  return `AnonymousIdentityRegistry contract successfully deployed to ${anonymousIdentityRegistry.address}.`
+  const contractAddress = anonymousIdentityRegistry.address
+  tempStorage.put({ providerUrl, fromAddress, contractAddress })
+
+  return `AnonymousIdentityRegistry contract successfully deployed to ${contractAddress}.`
 }
